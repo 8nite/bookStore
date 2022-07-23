@@ -1,0 +1,24 @@
+{
+  "name": "bookStore-user-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/herberttung/bookStore.git",
+  "author": "herbert <herberttung@hotmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha './functions/**/*_test.js'"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-mongo-db": "^2.0.4"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "chai": "^4.3.6"
+  }
+}
