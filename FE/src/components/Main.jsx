@@ -20,6 +20,7 @@ const style = {
 
 function Main() {
     const [items, setItems] = useState([])
+    const [itemHasMore, setItemHasMore] = useState(true)
     const [page, setPage] = useState(0)
     const [open, setOpen] = useState(false)
     const [paymentEnable, setPaymentEnable] = useState(false)
@@ -70,6 +71,9 @@ function Main() {
             method: 'GET',
             url: `${process.env.REACT_APP_DOMAIN}:${process.env.REACT_APP_USER_API_PORT}/user/bookList?countPerPage=20&page=` + page.toString(),
         })).data
+        if (!(moreBooks && moreBooks.length >= 20)) {
+            setItemHasMore(false)
+        }
         setItems(items.concat(moreBooks))
         console.log(items)
         setPage(page + 1)
@@ -82,7 +86,7 @@ function Main() {
             <InfiniteScroll
                 pageStart={0}
                 loadMore={fetchMoreData}
-                hasMore={true}
+                hasMore={itemHasMore}
                 loader={<div className="loader" key={0}>Loading ...</div>}>
                 {items.map((i, index) =>
                     <div id={index} style={style} key={index} onClick={(e) => handleClickOpen(index)}>                        

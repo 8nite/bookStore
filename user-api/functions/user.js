@@ -10,7 +10,8 @@ export const bookList = ((countPerPage, page) => {
 
             resolve(price.data)
         } catch (e) {
-            reject(e)
+            console.error(e)
+            //reject(e)
         }
     })
 })
@@ -31,7 +32,8 @@ export const bookInfo = ((title) => {
 
             resolve(price.data)
         } catch (e) {
-            reject(e)
+            console.error(e)
+            //reject(e)
         }
     })
 })
@@ -41,15 +43,16 @@ export const checkoutValidationAndGetPrice = ((title) => {
         try {
             //need to add more validation for checkout alter on
             if (typeof title === 'string')
-                resolve(await bookPrice(title))
+                resolve((await bookInfo(title)).price)
             resolve(false)
         } catch (e) {
-            reject(e)
+            console.error(e)
+            //reject(e)
         }
     })
 })
 
-export const createCheckout = ((title, price) => {
+export const createCheckout = ((title, price, customerName, customerPhone) => {
     return new Promise(async (resolve, reject) => {
         try {
             const checkout = await axios({
@@ -58,12 +61,13 @@ export const createCheckout = ((title, price) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: { title, price }
+                data: { title, price, customerName, customerPhone }
             })
 
             resolve(checkout.data.paymentUrl)
         } catch (e) {
-            reject(e)
+            console.error(e)
+            //reject(e)
         }
     })
 })

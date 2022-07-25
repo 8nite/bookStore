@@ -1,7 +1,7 @@
 function PaymentSuccess() {
     return (
         <div>
-            Order has been compeleted
+            Order is created
         </div>
     )
 }
