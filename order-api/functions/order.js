@@ -1,12 +1,18 @@
-//for add-on features
-export const updatePreOrderStatus = ((db, requestId) => {
+
+import { v4 as uuidv4 } from 'uuid';
+
+export const updatePreOrderStatus = ((db, customerId, priceInStripeId) => {
     return new Promise(async (resolve, reject) => {
-        await db.db(process.env.DATABASE).collection('order').updateOne(
-            { requestId },
-            {
-                $set: { status: 'checkout' }
-            }, { upsert: true })
-        resolve()
+        const requestId = uuidv4()
+
+        await db.db(process.env.DATABASE).collection('order').insertOne({
+            requestId,
+            customerId,
+            priceInStripeId,
+            status: 'checkout',
+            lastUpdate: new Date()
+        })
+        resolve(requestId)
     })
 })
 
@@ -41,7 +47,7 @@ export const isStripePaymentComplete = ((sessionId) => {
             const session = await getStripeSession(sessionId);
             if (session && session.status === 'complete')
                 resolve(true)
-            
+
             resolve(false)
         } catch (e) {
             reject(e)

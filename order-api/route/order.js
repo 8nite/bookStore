@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router();
-import { } from '../functions/order.js'
+import { updatePreOrderStatus } from '../functions/order.js'
 import { createCustomer, itemToStripePrice, createCheckoutSession } from '../functions/stripe.js'
 import 'dotenv/config'
 
@@ -15,6 +15,9 @@ router.post('/createPaymentSession', async (req, res) => {
     console.log('Pricing created for :', customer.id, priceInStripe.id)
     const paymentSession = await createCheckoutSession(customer.id, priceInStripe.id)
     console.log('paymentSession created for :', customer.id, priceInStripe.id)
+
+    const requestId = await updatePreOrderStatus(req.db, customer.id, priceInStripe.id)
+    console.log('Logged to DB for request ID :', requestId)
 
     res.json({ paymentUrl: paymentSession.url })
 })
